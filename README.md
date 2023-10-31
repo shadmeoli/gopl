@@ -21,7 +21,7 @@ Welcome to the Go API Project Structure CLI (gopl) documentation. This command-l
 Before using the Go API Project Structure CLI, you must install it. You can do this by running the following command:
 
 ```shell
-go get github.com/yourusername/gopl
+go get github.com/shadmeoli/gopl
 ```
 
 Ensure that your Go environment is set up correctly before proceeding.

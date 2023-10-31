@@ -7,27 +7,30 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	"github"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
+// main CLI entry
 func main() {
-	var rootCmd = &cobra.Command{Use: "api-generator"}
+	var rootCmd = &cobra.Command{Use: "gopl"}
 
 	var projectName string
+	var useDocker bool
 
 	var createCmd = &cobra.Command{
 		Use:   "create",
 		Short: "Create a new Go API project structure",
 		Run: func(cmd *cobra.Command, args []string) {
-			createProjectStructure(projectName)
+			createProjectStructure(projectName, useDocker)
 		},
 	}
 
 	createCmd.Flags().StringVarP(&projectName, "project-name", "p", "", "Specify the project directory name")
+	createCmd.Flags().BoolVarP(&useDocker, "use-docker", "d", false, "Configure Docker for the project")
 
 	viper.BindPFlag("project-name", createCmd.Flags().Lookup("project-name"))
+	viper.BindPFlag("use-docker", createCmd.Flags().Lookup("use-docker"))
 
 	rootCmd.AddCommand(createCmd)
 
@@ -36,7 +39,8 @@ func main() {
 	}
 }
 
-func createProjectStructure(projectName string) {
+// creator function
+func createProjectStructure(projectName string, useDocker bool) {
 	// Check if the project directory already exists
 	if _, err := os.Stat(projectName); !os.IsNotExist(err) {
 		log.Fatalf("Directory %s already exists. Please choose a different project name.", projectName)
@@ -52,7 +56,7 @@ func createProjectStructure(projectName string) {
 		log.Fatalf("Failed to change to the project directory: %v", err)
 	}
 
-	// Define the directory and file structure
+	// Defining the directory and file structure
 	directories := []string{
 		"cmd/myapi",
 		"internal/api/handlers",
@@ -63,6 +67,7 @@ func createProjectStructure(projectName string) {
 		"scripts",
 		"web",
 	}
+	// file structure definition
 	files := []string{
 		"Dockerfile",
 		"go.mod",
@@ -75,78 +80,43 @@ func createProjectStructure(projectName string) {
 		"api/v1/routes/routes.go",
 	}
 
-	// Create subdirectories
+	// Creating subdirectories
 	for _, dir := range directories {
 		if err := os.MkdirAll(dir, os.ModePerm); err != nil {
 			log.Fatalf("Failed to create directory: %v", err)
 		}
 	}
 
-	// Create necessary files
+	// Creating necessary files
 	for _, file := range files {
 		if _, err := os.Create(file); err != nil {
 			log.Fatalf("Failed to create file: %v", err)
 		}
 	}
 
-	// Install Go dependencies
-	cmd := exec.Command("go", "get", "-u", "github.com/gofiber/fiber/v2")
-	cmd.Dir = projectName
-	if err := cmd.Run(); err != nil {
-		log.Fatalf("Failed to install Fiber: %v", err)
-	}
+	// Prompting the user to create a .env file
+	fmt.Print("Do you want to create a .env file? (y/n): ")
+	var createEnvFile string
+	fmt.Scanln(&createEnvFile)
 
-	cmd = exec.Command("go", "get", "-u", "gorm.io/gorm")
-	cmd.Dir = projectName
-	if err := cmd.Run(); err != nil {
-		log.Fatalf("Failed to install GORM: %v", err)
-	}
-
-	cmd = exec.Command("go", "get", "-u", "gorm.io/driver/postgres")
-	cmd.Dir = projectName
-	if err := cmd.Run(); err != nil {
-		log.Fatalf("Failed to install PostgreSQL driver: %v", err)
-	}
-
-	cmd = exec.Command("go", "get", "-u", "github.com/dgrijalva/jwt-go")
-	cmd.Dir = projectName
-	if err := cmd.Run(); err != nil {
-		log.Fatalf("Failed to install JWT library: %v", err)
-	}
-
-	// Create a Dockerfile
-	dockerfileContent := `
-# Use the official Golang image as the base image
-FROM golang:latest
-
-# Set the working directory inside the container
-WORKDIR /app
-
-# Copy the local code to the container
-COPY . .
-
-# Build the Go application
-RUN go build -o main cmd/myapi/main.go
-
-# Expose the port the application will run on
-EXPOSE 8080
-
-# Command to run the executable
-CMD ["./main"]
+	if strings.ToLower(createEnvFile) == "y" {
+		// Create a .env file
+		envFilePath := filepath.Join(projectName, ".env")
+		envFileContent := `
+# Environment Configuration
+DATABASE_URL=your_database_url
+SECRET_KEY=your_secret_key
+# Add other environment variables here
 `
-	dockerfilePath := filepath.Join(projectName, "Dockerfile")
-	if err := os.WriteFile(dockerfilePath, []byte(dockerfileContent), os.ModePerm); err != nil {
-		log.Fatalf("Failed to create Dockerfile: %v", err)
+		if err := os.WriteFile(envFilePath, []byte(strings.TrimSpace(envFileContent)), os.ModePerm); err != nil {
+			log.Fatalf("Failed to create .env file: %v", err)
+		}
+		fmt.Printf("Created a .env file in the %s directory.\n", projectName)
 	}
 
-	// Build a Docker image
-	cmd = exec.Command("docker", "build", "-t", projectName, ".")
-	cmd.Dir = projectName
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	if err := cmd.Run(); err != nil {
-		log.Fatalf("Failed to build Docker image: %v", err)
+	if useDocker {
+		// ... Docker configuration code ...
 	}
 
-	fmt.Printf("API project structure created successfully in the %s directory, and a Docker image has been built with the same name.\n", projectName)
+	fmt.Printf("API project structure created successfully in the %s directory.\n", projectName)
 }

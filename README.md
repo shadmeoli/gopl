@@ -1,6 +1,6 @@
-# Go API Project Structure CLI Documentation
+<img src="./gopl-logo.png" alt="GoPL Logo" width="400">
 
-![GoPL Logo](./app/gopl-logo.png)
+# Go API Project Structure CLI Documentation
 
 Welcome to the Go API Project Structure CLI (gopl) documentation. This command-line tool allows you to create a new Go API project structure quickly and efficiently. It offers you the flexibility to configure the project with or without Docker.
 

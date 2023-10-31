@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
+	"github.com/cheggaaa/pb/v3"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
-
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
+	"strings"
 )
 
 // main CLI entry
@@ -81,18 +82,24 @@ func createProjectStructure(projectName string, useDocker bool) {
 	}
 
 	// Creating subdirectories
+	dirsProgressBar := pb.StartNew(len(directories))
 	for _, dir := range directories {
 		if err := os.MkdirAll(dir, os.ModePerm); err != nil {
 			log.Fatalf("Failed to create directory: %v", err)
 		}
+		dirsProgressBar.Increment()
 	}
+	dirsProgressBar.Finish()
 
 	// Creating necessary files
+	filesProgressBar := pb.StartNew(len(files))
 	for _, file := range files {
 		if _, err := os.Create(file); err != nil {
 			log.Fatalf("Failed to create file: %v", err)
 		}
+		filesProgressBar.Increment()
 	}
+	filesProgressBar.Finish()
 
 	// Prompting the user to create a .env file
 	fmt.Print("Do you want to create a .env file? (y/n): ")

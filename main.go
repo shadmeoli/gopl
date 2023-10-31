@@ -7,7 +7,6 @@ import (
 	"github.com/spf13/viper"
 	"log"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"strings"
 )

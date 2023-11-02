@@ -159,7 +159,7 @@ func createProjectStructure(projectName string, useDocker bool) {
 	}
 
 	// Format the libraries list with blue color using ANSI escape codes
-	fmt.Print("\x1b[34mHere are the libraries you have to install: \x1b[0m")
+	fmt.Print("\x1b[34mHere are the libraries you have to install: \x1b[0m\n")
 
 	for i, lib := range librariesToInstall {
 		if i != 0 {

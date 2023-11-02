@@ -158,6 +158,7 @@ func createProjectStructure(projectName string, useDocker bool) {
 		"github.com/dgrijalva/jwt-go",
 	}
 
+	// TODO -> set up, to do project initilization and library installs
 	// Format the libraries list with blue color using ANSI escape codes
 	fmt.Print("\x1b[34mHere are the libraries you have to install: \x1b[0m\n")
 

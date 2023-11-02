@@ -52,6 +52,24 @@ func InstallLibrary(library string) error {
 	return nil
 }
 
+// InitializeGoModule initializes a Go module with the specified project path.
+func InitializeGoModule(projectPath string) error {
+	// Format the project path with "github.com/"
+	projectPath = "github.com/" + projectPath
+
+	// Run the "go mod init" command with the formatted project path
+	cmd := exec.Command("go", "mod", "init", projectPath)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	if err := cmd.Run(); err != nil {
+		return fmt.Errorf("Error running 'go mod init': %v", err)
+	}
+
+	fmt.Printf("Initialized a Go module with project path: %s\n", projectPath)
+	return nil
+}
+
 // creator function
 func createProjectStructure(projectName string, useDocker bool) {
 
@@ -66,6 +84,11 @@ func createProjectStructure(projectName string, useDocker bool) {
 	// Change to the project directory
 	if err := os.Chdir(projectName); err != nil {
 		log.Fatalf("Failed to change to the project directory: %v", err)
+	}
+
+	// Initialize the Go module
+	if err := InitializeGoModule(projectName); err != nil {
+		log.Fatalf("Failed to initialize the Go module: %v", err)
 	}
 
 	// Defining the directory and file structure
@@ -112,6 +135,8 @@ func createProjectStructure(projectName string, useDocker bool) {
 		filesProgressBar.Increment()
 	}
 	filesProgressBar.Finish()
+
+	// initilizing go for library install
 
 	// installing needed dependencies for an API -  libraries of choice [ go-fiber, goorm, jwt-go, postgres ]
 	// [

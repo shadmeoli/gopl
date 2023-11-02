@@ -165,7 +165,7 @@ func createProjectStructure(projectName string, useDocker bool) {
 		if i != 0 {
 			fmt.Print(", ")
 		}
-		fmt.Printf("\x1b[34m%s\x1b[0m", lib)
+		fmt.Printf("\x1b[34m%s\x1b[0m\n", lib)
 	}
 
 	// Inform the user to copy the text

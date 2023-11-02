@@ -6,6 +6,12 @@ Welcome to the Go API Project Structure CLI (gopl) documentation. This command-l
 
 > This is just a quick CLI Hack I came up with to help me structure my API for a pet project I am doing and also sicne I am learning GO I will be needing this. <br> Feel free to add changes to this. It is mainly tailored to my liking and current knowledge of go <br>
 
+> Make sure to run this if you are lazy to run `go build`
+
+```
+./set-build
+```
+
 ## Table of Contents
 
 1. [Installation](#installation)

@@ -9,8 +9,10 @@ Welcome to the Go API Project Structure CLI (gopl) documentation. This command-l
 > Make sure to run this if you are lazy to run `go build`
 
 ```
-./set-build
+alias build="go build gopl.go"
 ```
+
+> Now you can run `build` to build the binary
 
 ## Table of Contents
 

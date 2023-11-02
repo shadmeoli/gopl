@@ -1,0 +1,1 @@
+go build gopl.go

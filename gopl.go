@@ -10,7 +10,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
-	"sync"
+	// "sync"
 )
 
 // main CLI entry
@@ -54,6 +54,9 @@ func InstallLibrary(library string) error {
 
 // InitializeGoModule initializes a Go module with the specified project path.
 func InitializeGoModule(projectPath string) error {
+
+	exec.Command("cd", projectPath)
+
 	// Format the project path with "github.com/"
 	projectPath = "github.com/" + projectPath
 
@@ -67,6 +70,7 @@ func InitializeGoModule(projectPath string) error {
 	}
 
 	fmt.Printf("Initialized a Go module with project path: %s\n", projectPath)
+	exec.Command("cd ..")
 	return nil
 }
 
@@ -154,30 +158,18 @@ func createProjectStructure(projectName string, useDocker bool) {
 		"github.com/dgrijalva/jwt-go",
 	}
 
-	// Create a progress bar
-	libsInstallProgressBar := pb.StartNew(100)
+	// Format the libraries list with blue color using ANSI escape codes
+	fmt.Print("\x1b[34mHere are the libraries you have to install: \x1b[0m")
 
-	// Use a WaitGroup to wait for all installations to complete
-	var wg sync.WaitGroup
+	for i, lib := range librariesToInstall {
+		if i != 0 {
+			fmt.Print(", ")
+		}
+		fmt.Printf("\x1b[34m%s\x1b[0m", lib)
+	}
 
-	for _, library := range librariesToInstall {
-		wg.Add(1)
-		go func(lib string) {
-			defer wg.Done()
-			if err := InstallLibrary(lib); err != nil {
-				fmt.Println(err)
-			} else {
-				fmt.Printf("Installed %s\n", lib)
-			}
-			libsInstallProgressBar.Increment()
-		}(library)
-	} // Wait for all installations to complete
-	wg.Wait()
-
-	// Close the progress bar
-	libsInstallProgressBar.Finish()
-
-	fmt.Println("All installations complete")
+	// Inform the user to copy the text
+	fmt.Println("\nCopy the libraries list and install them as needed.")
 
 	// Prompting the user to create a .env file
 	fmt.Print("Do you want to create a .env file? (Y/n): ")

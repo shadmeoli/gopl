@@ -142,14 +142,6 @@ func createProjectStructure(projectName string, useDocker bool) {
 
 	// initilizing go for library install
 
-	// installing needed dependencies for an API -  libraries of choice [ go-fiber, goorm, jwt-go, postgres ]
-	// [
-	// go get -u github.com/gofiber/fiber/v2
-	// go get -u gorm.io/gorm
-	// go get -u gorm.io/driver/postgres
-	// go get -u github.com/dgrijalva/jwt-go
-	// ]
-
 	// List of library import paths to install
 	librariesToInstall := []string{
 		"github.com/gofiber/fiber/v2",

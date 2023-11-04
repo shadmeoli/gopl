@@ -141,7 +141,6 @@ func createProjectStructure(projectName string, useDocker bool) {
 	filesProgressBar.Finish()
 
 	// initilizing go for library install
-
 	// List of library import paths to install
 	librariesToInstall := []string{
 		"github.com/gofiber/fiber/v2",
@@ -158,6 +157,7 @@ func createProjectStructure(projectName string, useDocker bool) {
 		if i != 0 {
 			fmt.Print(", ")
 		}
+		InstallLibrary(lib)
 		fmt.Printf("\x1b[34m%s\x1b[0m\n", lib)
 	}
 

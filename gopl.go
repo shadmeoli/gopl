@@ -149,7 +149,21 @@ func createProjectStructure(projectName string, useDocker bool) {
 		"github.com/dgrijalva/jwt-go",
 	}
 
-	// TODO -> set up, to do project initilization and library installs
+	// set up, to do project initilization and library installs
+	// getting current working directory
+	cwd, err := os.Getwd()
+
+	if err != nil {
+		fmt.Println("Error: ", err)
+	}
+
+	parentDir := filepath.Dir(cwd)
+	projectDir := filepath.Join(parentDir, projectName)
+	cmd := exec.Command("go", "mod", "init", projectDir)
+	cmd.Dir = projectDir
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
 	// Format the libraries list with blue color using ANSI escape codes
 	fmt.Print("\x1b[34mHere are the libraries you have to install: \x1b[0m\n")
 

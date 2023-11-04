@@ -141,15 +141,6 @@ func createProjectStructure(projectName string, useDocker bool) {
 	filesProgressBar.Finish()
 
 	// initilizing go for library install
-
-	// installing needed dependencies for an API -  libraries of choice [ go-fiber, goorm, jwt-go, postgres ]
-	// [
-	// go get -u github.com/gofiber/fiber/v2
-	// go get -u gorm.io/gorm
-	// go get -u gorm.io/driver/postgres
-	// go get -u github.com/dgrijalva/jwt-go
-	// ]
-
 	// List of library import paths to install
 	librariesToInstall := []string{
 		"github.com/gofiber/fiber/v2",
@@ -158,7 +149,21 @@ func createProjectStructure(projectName string, useDocker bool) {
 		"github.com/dgrijalva/jwt-go",
 	}
 
-	// TODO -> set up, to do project initilization and library installs
+	// set up, to do project initilization and library installs
+	// getting current working directory
+	cwd, err := os.Getwd()
+
+	if err != nil {
+		fmt.Println("Error: ", err)
+	}
+
+	parentDir := filepath.Dir(cwd)
+	projectDir := filepath.Join(parentDir, projectName)
+	cmd := exec.Command("go", "mod", "init", projectDir)
+	cmd.Dir = projectDir
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
 	// Format the libraries list with blue color using ANSI escape codes
 	fmt.Print("\x1b[34mHere are the libraries you have to install: \x1b[0m\n")
 
@@ -166,6 +171,7 @@ func createProjectStructure(projectName string, useDocker bool) {
 		if i != 0 {
 			fmt.Print(", ")
 		}
+		InstallLibrary(lib)
 		fmt.Printf("\x1b[34m%s\x1b[0m\n", lib)
 	}
 

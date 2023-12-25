@@ -2,18 +2,20 @@ package main
 
 import (
 	"fmt"
-	"github.com/cheggaaa/pb/v3"
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
+
+	"github.com/cheggaaa/pb/v3"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // main CLI entry
 func main() {
+	
 	var rootCmd = &cobra.Command{Use: "gopl"}
 
 	var projectName string
@@ -42,9 +44,12 @@ func main() {
 
 // InstallLibrary installs a Go library and returns an error if the installation fails.
 func InstallLibrary(library string) error {
+
 	cmd := exec.Command("go", "get", "-u", library)
+
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
+
 	if err := cmd.Run(); err != nil {
 		return fmt.Errorf("Error installing %s: %v", library, err)
 	}

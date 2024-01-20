@@ -15,7 +15,7 @@ import (
 
 // main CLI entry
 func main() {
-	
+
 	var rootCmd = &cobra.Command{Use: "gopl"}
 
 	var projectName string

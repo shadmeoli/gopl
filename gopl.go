@@ -10,7 +10,6 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
-	// "sync"
 )
 
 // main CLI entry
@@ -227,4 +226,18 @@ CMD ["./main"]
 	} else {
 		fmt.Printf("API project structure created successfully in the %s directory.\n", projectName)
 	}
+}
+
+const {
+	Github string = "gh"
+	Terraform string ="tf"
+}
+
+// this is a function to setup a CI/CD pipeline of choice
+func CICDPipelineSetup(fileTree stirng) {
+	/**
+	* this function will setup a boiler plate CI - CD pipeline
+	**/
+
+	return fileTree
 }

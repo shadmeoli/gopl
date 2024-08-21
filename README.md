@@ -4,6 +4,9 @@
 
 Welcome to the Go API Project Structure CLI (gopl) documentation. This command-line tool allows you to create a new Go API project structure quickly and efficiently. It offers you the flexibility to configure the project with or without Docker.
 
+> I am to re-write it with the help of Bubble tee and Huh
+
+
 > This is just a quick CLI Hack I came up with to help me structure my API for a pet project I am doing and also sicne I am learning GO I will be needing this. <br> Feel free to add changes to this. It is mainly tailored to my liking and current knowledge of go <br>
 
 ### Make sure to run this if you are lazy to run `go build`

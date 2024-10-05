@@ -27,3 +27,7 @@ install:
 	@echo "Adding $(INSTALL_DIR) to your PATH in .bashrc"
 	echo 'export PATH=$$PATH:$(INSTALL_DIR)' >> ~/.zshrc
 	source ~/.zshrc
+
+
+run:
+    go run gopl.go

@@ -228,15 +228,15 @@ CMD ["./main"]
 	}
 }
 
-const {
+const (
 	Github string = "gh"
 	Terraform string ="tf"
-}
+)
 
 // this is a function to setup a CI/CD pipeline of choice
- func CICDPipelineSetup(fileTree stirng) {
+ func CICDPipelineSetup(fileTree string) {
   /**
   * this function will setup a boiler plate CI - CD pipeline
   **/
-  return fileTree
+  return ""
  }

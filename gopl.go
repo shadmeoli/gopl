@@ -238,5 +238,5 @@ const (
   /**
   * this function will setup a boiler plate CI - CD pipeline
   **/
-  return ""
+  return
  }
